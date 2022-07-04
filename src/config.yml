@@ -1,0 +1,7 @@
+# Timer before "not in combat anymore"
+timer: 15
+
+# Boost of ores mined
+# Easy math: We just multiply how many ores
+# we got by the boost value
+ores-boost: 1
