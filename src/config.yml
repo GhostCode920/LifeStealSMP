@@ -9,7 +9,7 @@ ores-boost: 1
 
 
 language:
-  # Avaible: english, custom
+  # Avaible: english, french, custom
   set: english
   
   # true: When a player dies, it sends a custom message (that doesn't contain the reason why he's dead)
