@@ -1,72 +1,99 @@
 package me.ghostcode.lifesteal;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import me.ghostcode.lifesteal.language.Language;
+import me.ghostcode.lifesteal.versionsupport.Version;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
 // From a old api, reused in Pofacraft's code
 public final class Member {
-
-    private static final ArrayList<Member> members = new ArrayList<>();
-
-    private Member(Player p) {
-	player = p;
-	members.add(this);
-    }
 	
-    public static ArrayList<Member> getAllRegistedMembers() {
-	return members;
-    }
+	private static final ArrayList<Member> members = new ArrayList<>();
 	
-    public static Member get(Player p) {
-	for(Member m : members) {
-	    if(m.getPlayer() == p)
-		return m;
+	private Member(Player p) {
+		player = p;
+		members.add(this);
 	}
-	return new Member(p);
-    }
-
-
-    public void sendActionBar(String content) {
-        getConnection().sendPacket(new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\": \""+ PlaceholderManager.setPlaceholders(getPlayer(), content) +"\"}"), (byte)2));
-    } 
-
-
-    private final Player player;
-    public Player getPlayer() {
+	
+	public static ArrayList<Member> getAllRegistedMembers() {
+		return members;
+	}
+	
+	public static Member get(Player p) {
+		for(Member m : members) {
+			if(m.getPlayer() == p)
+				return m;
+		}
+		return new Member(p);
+	}	
+	
+	public void sendActionBar(String content) {
+		Version.get().sendActionBar(player, content);
+	} 
+	
+	
+	private final Player player;
+	public Player getPlayer() {
 		return player;
-    }
-    public CraftPlayer getCraftPlayer() {
-	return (CraftPlayer) getPlayer();
-    }
-    public EntityPlayer getEntityPlayer() {
-	return getCraftPlayer().getHandle();
-    }
-    public PlayerConnection getConnection() {
-	return getEntityPlayer().playerConnection;
-    }
+	}
+	
+	protected int timer;
+	protected Player lastHit;
+	public void updateTimer(Player hit) {
+		lastHit = hit;
+		timer = Main.getInstance().getTimer();
+	}
+	public void runTimer() {
+		new BukkitRunnable() {
+			@Override public void run() {
+				if(timer-- == 0)
+					sendActionBar(Language.get().noLongerInCombat());
+				else if(timer > 0)
+					sendActionBar(Language.get().combatTimer().replace("$timer$", timer+""));
+			} 
+		}.runTaskTimerAsynchronously(Main.getInstance(), 0l, 20l);
+	} 
+	public int getTimer() {
+		return timer;
+	}
+	public Player getLastHit() {
+		return lastHit;
+	}
 
-    protected int timer;
-    protected Player lastHit;
-    /**
-     * I'll probably move this to Main bcs thats
-     * very very small... 
-     */
-    public boolean updateTimer(Player hit) {
-        lastHit = hit;
-        timer = Main.$Instance.getTimer();
-    }
-    public void runTimer() {
-        new BukkitRunnable() {
-             @Override public void run() {
-                 if(timer-- < 0) {
-                     timer++;
-                     sendActionBar("config") //todo
-                 } 
-             } 
-        }.runAsyncTaskTimer(Main.$Instance, 0l, 20l);
-    } 
-    public int getTimer() {
-        return timer;
-    }
-    public Player getLastHit() {
-        return lastHit;
-    } 
-
+	public int maxHealth() {
+		if(!config().contains("health"))
+			config().set("health", 10);
+		return config().getInt("health", 10);
+	}
+	
+	public void maxHealth(boolean add) {
+		config().set("health", maxHealth()+(add?1:-1));
+		getPlayer().setMaxHealth(maxHealth()*2);
+	}
+	
+	
+	
+	private YamlConfiguration c;
+	public YamlConfiguration config() {
+		if(c != null) return c;
+		
+		try {
+			File f = new File("plugins/LifeSteal/members/"+player.getUniqueId().toString()+".yml");
+			f.mkdirs();
+			f.createNewFile();
+			return c = YamlConfiguration.loadConfiguration(f);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
 } 

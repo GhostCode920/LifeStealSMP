@@ -5,3 +5,24 @@ timer: 15
 # Easy math: We just multiply how many ores
 # we got by the boost value
 ores-boost: 1
+
+
+
+language:
+  # Avaible: english, custom
+  set: english
+  
+  # true: When a player dies, it sends a custom message (that don't contains the reason why he's dead)
+  # if he get killed, it sends a custom message like "Player was slain by Killer" that can be changed too
+  # false: Vanilla messages
+  custom-death-messages: true
+  
+  custom:
+    nolongerincombat: "&aYou're no longer in combat"
+    # $timer$ = timer before no longer in combat
+    timer: "&cCombat Timer: &6$timer$"
+    # $player$ = player who got killed
+    # $killer$ = player who killed
+    playerkilledby: "§6$player$ §ewas slain by §6$killer$ §e!"
+    # $player$ = player who died
+    playerdeath: "§6$player$ §edied !"

@@ -1,24 +1,111 @@
 package me.ghostcode.lifesteal;
 
-// Im gonna do the complete code tomorrow, im on phone so i cant
+import me.ghostcode.lifesteal.language.Language;
+import me.ghostcode.lifesteal.versionsupport.Version;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.Egg;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 public final class Main extends JavaPlugin implements Listener {
+	
+	private static Main $Instance;
+	public static Main getInstance() {
+		return $Instance;
+	}
+	
+	@Override
+	public void onLoad() {
+		super.onLoad();
+		$Instance = this;
+	}
+	
+	@Override
+	public void onEnable() {
+		if(Version.get() == null) return;
+		PluginManager pm = Bukkit.getPluginManager();
+		pm.registerEvents(this, this);
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onDeath(PlayerDeathEvent e) {
+		
+		Player p = e.getEntity();
+		Member m = Member.get(p);
+		
+		if(m.getTimer() <= 0) {
+			if(customDeathMessages())
+				e.setDeathMessage(Language.get().playerDeath().replace("$player$", p.getName()));
+		}else {
+			Member k = Member.get(m.getLastHit());
+			if(m.maxHealth()>1) {
+				k.maxHealth(true);
+				m.maxHealth(false);
+			}
+			m.timer = -1; // so when he respawn it clears
+			if(customDeathMessages())
+				e.setDeathMessage(Language.get().playerKilledBy().replace("$player$", p.getName().replace("$killer$", m.getLastHit().getName())));
+		}
+		
+	} 
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onDamage(EntityDamageByEntityEvent e) {
+		if(!(e.getEntity() instanceof Player)) return;
+		Player p = (Player) e.getEntity();
+		Member m = Member.get(p);
+		
+		if(e.getDamager() instanceof Player) {
+			m.updateTimer((Player)e.getDamager());
+			return;
+		}
+		
+		if(e.getDamager() instanceof Egg) {
+			Egg d = (Egg) e.getDamager();
+			if(!(d.getShooter() instanceof Player)) return;
+			m.updateTimer((Player)d.getShooter());
+			return;
+		}
+		
+		if(e.getDamager() instanceof AbstractArrow) {
+			AbstractArrow d = (AbstractArrow) e.getDamager();
+			if(!(d.getShooter() instanceof Player)) return;
+			m.updateTimer((Player)d.getShooter());
+			return;
+		}
+		
+		if(e.getDamager() instanceof Snowball) {
+			Snowball d = (Snowball) e.getDamager();
+			if(!(d.getShooter() instanceof Player)) return;
+			m.updateTimer((Player)d.getShooter());
+			return;
+		}
+	}
 
-    @Override
-    public void onEnable() {
-        PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(this, this);
-    } 
-
-    @EventHandler
-    public void onDeath(***) {
-
-        //if(!(e.getEntity() instanceof Player)) return;
-        //I need to check if event is PlayerDeath or EntityDeath
-        Player p = (Player) e.getEntity();
-        Member m = Member.get(p)
-
-// i'll check if i not already did a code like that
-
-    } 
-
+	public int getTimer() {
+		return getConfig().getInt("timer", 15);
+	}
+	
+	public boolean customDeathMessages() {
+		return getConfig().getBoolean("custom-death-messages", true);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onQuit(PlayerQuitEvent e) {
+		Member m = Member.get(e.getPlayer());
+		if(m.getTimer() > 0) {
+			m.getPlayer().setHealth(0);
+		}
+	}
+	
 } 
