@@ -6,21 +6,30 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public abstract class Version {
+
+	private static final Version[] vers = new Version[] {
+		new v1_7_R3(), new v1_7_R4(),
+		new v1_8_R1(), new v1_8_R2(), new v1_8_R3(), 
+		new v1_9_R1(), new v1_9_R2(), 
+		new v1_10_R1(), new v1_11_R1(), new v1_12_R1(), 
+		new v1_13_R1(), new v1_13_R2(), 
+		new v1_14_R1(), new v1_15_R1(), 
+		new v1_16_R1(), new v1_16_R2(), new v1_16_R3(), 
+		new v1_17_R1(),
+		new v1_18_R1(), new v1_18_R2(), 
+		new v1_19_R1() 
+	} 
 	
 	private static Version $Instance;
 	public static Version get() {
 		
 		if($Instance == null) {
-			// if i found better i'll change
-			for(Class<? extends Version> clazz : new Class[] {v1_16_R3.class}) {
+			for(Version v : vers)
 				try {
 					Class.forName("net.minecraft.server."+clazz.getSimpleName()+".Packet");
-					return $Instance = clazz.newInstance();
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-					
-				}
-			}
-			Bukkit.getConsoleSender().sendMessage("§cThe server's version is not supported. Check for on -->web<--"); //TODO -->web<--
+					return $Instance = v
+				} catch (ClassNotFoundException | e) {}
+			Bukkit.getConsoleSender().sendMessage("§cThe server's version is not supported. Check on spigotmc/lifestealsmp"); //TODO web
 			Bukkit.getPluginManager().disablePlugin(Main.getInstance());
 			return null;
 		}
