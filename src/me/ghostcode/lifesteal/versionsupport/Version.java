@@ -26,7 +26,7 @@ public abstract class Version {
 		if($Instance == null) {
 			for(Version v : vers)
 				try {
-					Class.forName("net.minecraft.server."+clazz.getSimpleName()+".Packet");
+					Class.forName("net.minecraft.server."+v.class.getSimpleName()+".Packet");
 					return $Instance = v
 				} catch (ClassNotFoundException | e) {}
 			Bukkit.getConsoleSender().sendMessage("§cThe server's version is not supported. Check on spigotmc/lifestealsmp"); //TODO web
