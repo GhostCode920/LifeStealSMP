@@ -4,10 +4,7 @@ import me.ghostcode.lifesteal.language.Language;
 import me.ghostcode.lifesteal.versionsupport.Version;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.AbstractArrow;
-import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -70,25 +67,9 @@ public final class Main extends JavaPlugin implements Listener {
 			return;
 		}
 		
-		if(e.getDamager() instanceof Egg) {
-			Egg d = (Egg) e.getDamager();
-			if(!(d.getShooter() instanceof Player)) return;
-			m.updateTimer((Player)d.getShooter());
-			return;
-		}
-		
-		if(e.getDamager() instanceof AbstractArrow) {
-			AbstractArrow d = (AbstractArrow) e.getDamager();
-			if(!(d.getShooter() instanceof Player)) return;
-			m.updateTimer((Player)d.getShooter());
-			return;
-		}
-		
-		if(e.getDamager() instanceof Snowball) {
-			Snowball d = (Snowball) e.getDamager();
-			if(!(d.getShooter() instanceof Player)) return;
-			m.updateTimer((Player)d.getShooter());
-			return;
+		Player d;
+		if((d = Version.get().shouldUpdateTimer(p, e.getDamager())) != null) {
+			m.updateTimer(d);
 		}
 	}
 

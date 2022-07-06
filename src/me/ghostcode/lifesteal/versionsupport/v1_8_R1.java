@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
-final class v1_13_R1 extends Version {
+final class v1_8_R1 extends Version {
 
 	@Override
 	public void sendActionBar(Player p, String content) {

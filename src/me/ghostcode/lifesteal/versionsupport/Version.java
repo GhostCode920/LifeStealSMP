@@ -3,6 +3,7 @@ package me.ghostcode.lifesteal.versionsupport;
 import me.ghostcode.lifesteal.Main;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public abstract class Version {
@@ -18,7 +19,7 @@ public abstract class Version {
 		new v1_17_R1(),
 		new v1_18_R1(), new v1_18_R2(), 
 		new v1_19_R1() 
-	} 
+	};
 	
 	private static Version $Instance;
 	public static Version get() {
@@ -26,9 +27,9 @@ public abstract class Version {
 		if($Instance == null) {
 			for(Version v : vers)
 				try {
-					Class.forName("net.minecraft.server."+v.class.getSimpleName()+".Packet");
-					return $Instance = v
-				} catch (ClassNotFoundException | e) {}
+					Class.forName("net.minecraft.server."+v.getClass().getSimpleName()+".Packet");
+					return $Instance = v;
+				} catch (ClassNotFoundException e) {}
 			Bukkit.getConsoleSender().sendMessage("§cThe server's version is not supported. Check on spigotmc/lifestealsmp"); //TODO web
 			Bukkit.getPluginManager().disablePlugin(Main.getInstance());
 			return null;
@@ -38,5 +39,7 @@ public abstract class Version {
 	}
 	
 	public abstract void sendActionBar(Player p, String content);
+	
+	public abstract Player shouldUpdateTimer(Player p, Entity d);
 
 }
