@@ -1,7 +1,10 @@
 # LifeSteal SMP
 
 On this plugin, every time a player get killed
-by an other person, his killer steal him a ❤️. 
+by an other person, his killer steal him a ❤️.
+
+Download it now ! (or not) 
+Tested Versions: (none) 
 
 Addons:
 - Timer ! So if he dies in lava before X
