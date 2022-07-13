@@ -49,7 +49,7 @@ public final class Main extends JavaPlugin implements Listener {
 				k.maxHealth(true);
 				m.maxHealth(false);
 			}
-			m.timer = -1; // so when he respawn it clears
+			m.timer = -1; // so if he respawns and die, his previous killer wont get a kill
 			if(customDeathMessages())
 				e.setDeathMessage(Language.get().playerKilledBy().replace("$player$", p.getName().replace("$killer$", m.getLastHit().getName())));
 		}
