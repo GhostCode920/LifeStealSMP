@@ -30,7 +30,14 @@ public final class LifeSteal extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		if(Version.get() == null) return;
+		
 		saveDefaultConfig();
+		settingTimer = getConfig().getInt("timer", 15);
+		settingCustomMessages = getConfig().getBoolean("custom-death-messages", true);
+		settingPrevent = new boolean[] {getConfig().getBoolean("iron-prevent", true), getConfig().getBoolean("gold-prevent", true)};
+		settingBoost = Math.max(0, getConfig().getInt("ores-boost", 1));
+		// Math.max(0, *) because of idiots that can put negatives...
+		
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(this, this);
 		pm.registerEvents(new OreBoost(), this);
@@ -75,21 +82,24 @@ public final class LifeSteal extends JavaPlugin implements Listener {
 		}
 	}
 
+	private int settingTimer;
 	public int getTimer() {
-		return getConfig().getInt("timer", 15);
+		return settingTimer;
 	}
 	
+	private boolean settingCustomMessages;
 	public boolean customDeathMessages() {
-		return getConfig().getBoolean("custom-death-messages", true);
+		return settingCustomMessages; 
 	}
 	
+	private boolean[] settingPrevent;
 	public boolean[] ironAndGoldPrevent() {
-		return new boolean[] {getConfig().getBoolean("iron-prevent", true), getConfig().getBoolean("gold-prevent", true)};
+		return settingPrevent;
 	}
-	
+
+	private int settingBoost;
 	public int oreBoost() {
-		return Math.max(0, getConfig().getInt("ores-boost", 1));
-		// Math.max(0, *) because of idiots that can put -1...
+		return settingBoost;
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
