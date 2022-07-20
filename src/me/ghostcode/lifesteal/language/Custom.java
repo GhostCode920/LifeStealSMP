@@ -8,6 +8,16 @@ final class Custom extends Language {
 	public String languageName() {
 		return "custom";
 	}
+
+	protected Custom() {
+		str = new String[] {
+			config("nolongerincombat", English.$Instance.noLongerInCombat(),
+			config("timer", English.$Instance.combatTimer()),
+			config("playerkilledby", English.$Instance.playerKilledBy()),
+			config("playerdeath", English.$Instance.playerDeath())
+		}
+	}
+
 	
 	private String config(String path, String def) {
 		return LifeSteal.getInstance().getConfig().getString("language.custom."+path, def);
@@ -15,22 +25,22 @@ final class Custom extends Language {
 
 	@Override
 	public String noLongerInCombat() {
-		return config("nolongerincombat", English.$Instance.noLongerInCombat());
+		return str[0];
 	}
 
 	@Override
 	public String combatTimer() {
-		return config("timer", English.$Instance.combatTimer());
+		return str[1];
 	}
 
 	@Override
 	public String playerKilledBy() {
-		return config("playerkilledby", English.$Instance.playerKilledBy());
+		return str[2];
 	}
 
 	@Override
 	public String playerDeath() {
-		return config("playerdeath", English.$Instance.playerDeath());
+		return str[3];
 	}
 
 }
