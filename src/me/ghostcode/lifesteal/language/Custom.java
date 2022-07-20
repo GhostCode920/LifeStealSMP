@@ -9,6 +9,8 @@ final class Custom extends Language {
 		return "custom";
 	}
 
+	private final String[] str;
+
 	protected Custom() {
 		str = new String[] {
 			config("nolongerincombat", English.$Instance.noLongerInCombat(),
