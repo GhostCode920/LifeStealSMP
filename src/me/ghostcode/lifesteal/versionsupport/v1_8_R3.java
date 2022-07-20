@@ -13,6 +13,11 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 // done
 final class v1_8_R3 extends Version {
+	
+	@Override
+	public int id() {
+		return 83;
+	}
 
 	@Override
 	public void sendActionBar(Player p, String content) {

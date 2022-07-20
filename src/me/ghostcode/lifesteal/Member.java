@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-// From a old api, reused in Pofacraft's code
+// Some parts from one of my old api
 public final class Member {
 	
 	private static final ArrayList<Member> members = new ArrayList<>();
@@ -47,7 +47,7 @@ public final class Member {
 	protected Player lastHit;
 	public void updateTimer(Player hit) {
 		lastHit = hit;
-		timer = Main.getInstance().getTimer();
+		timer = LifeSteal.getInstance().getTimer();
 	}
 	public void runTimer() {
 		new BukkitRunnable() {
@@ -57,7 +57,7 @@ public final class Member {
 				else if(timer > 0)
 					sendActionBar(Language.get().combatTimer().replace("$timer$", timer+""));
 			} 
-		}.runTaskTimerAsynchronously(Main.getInstance(), 0l, 20l);
+		}.runTaskTimerAsynchronously(LifeSteal.getInstance(), 0l, 20l);
 	} 
 	public int getTimer() {
 		return timer;

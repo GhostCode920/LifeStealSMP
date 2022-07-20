@@ -12,6 +12,11 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 // done
 final class v1_16_R3 extends Version {
+	
+	@Override
+	public int id() {
+		return 163;
+	}
 
 	@Override
 	public void sendActionBar(Player p, String content) {

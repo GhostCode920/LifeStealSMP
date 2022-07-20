@@ -20,7 +20,7 @@ class English extends Language {
 
 	@Override
 	public String combatTimer() {
-		return "§cCombat Timer: &6$timer$";
+		return "§cIn combat for §6$timer$§cs.";
 	}
 
 	@Override

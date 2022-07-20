@@ -1,17 +1,17 @@
 package me.ghostcode.lifesteal.versionsupport;
 
-import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
-final class v1_15_R1 extends Version {
+final class v1_5_R2 extends Version {
 	
 	@Override
 	public int id() {
-		return 151;
+		return 52;
 	}
 
 	@Override
@@ -21,7 +21,7 @@ final class v1_15_R1 extends Version {
 	
 	@Override
 	public Player shouldUpdateTimer(Player p, Entity d) {
-		if(d instanceof Egg || d instanceof Snowball || d instanceof AbstractArrow) {
+		if(d instanceof Egg || d instanceof Snowball || d instanceof Arrow) {
 			Projectile f = (Projectile) d;
 			if(f.getShooter() instanceof Player)
 				return (Player) f.getShooter();

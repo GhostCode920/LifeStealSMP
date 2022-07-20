@@ -1,13 +1,13 @@
 package me.ghostcode.lifesteal.language;
 
-import me.ghostcode.lifesteal.Main;
+import me.ghostcode.lifesteal.LifeSteal;
 
 public abstract class Language {
 	
 	private static Language $Instance;
 	public static Language get() {
 		if($Instance == null) {
-			String set = Main.getInstance().getConfig().getString("language.set", "english");
+			String set = LifeSteal.getInstance().getConfig().getString("language.set", "english");
 			for(Language l : new Language[] {new Custom(), new English(), new French()})
 				if(l.languageName().equalsIgnoreCase(set))
 					return $Instance = l;

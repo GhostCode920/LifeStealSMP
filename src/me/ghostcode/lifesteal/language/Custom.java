@@ -1,6 +1,6 @@
 package me.ghostcode.lifesteal.language;
 
-import me.ghostcode.lifesteal.Main;
+import me.ghostcode.lifesteal.LifeSteal;
 
 final class Custom extends Language {
 
@@ -10,7 +10,7 @@ final class Custom extends Language {
 	}
 	
 	private String config(String path, String def) {
-		return Main.getInstance().getConfig().getString("language.custom."+path, def);
+		return LifeSteal.getInstance().getConfig().getString("language.custom."+path, def);
 	}
 
 	@Override

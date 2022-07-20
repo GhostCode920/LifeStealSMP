@@ -8,6 +8,11 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
 final class v1_9_R2 extends Version {
+	
+	@Override
+	public int id() {
+		return 92;
+	}
 
 	@Override
 	public void sendActionBar(Player p, String content) {

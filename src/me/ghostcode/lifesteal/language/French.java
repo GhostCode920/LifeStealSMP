@@ -14,7 +14,7 @@ final class French extends Language {
 
 	@Override
 	public String combatTimer() {
-		return "§cCombat Timer: §6$timer$";
+		return "§cEn combat pour §6$timer$§cs.";
 	}
 
 	@Override

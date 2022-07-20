@@ -14,10 +14,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Main extends JavaPlugin implements Listener {
+public final class LifeSteal extends JavaPlugin implements Listener {
 	
-	private static Main $Instance;
-	public static Main getInstance() {
+	private static LifeSteal $Instance;
+	public static LifeSteal getInstance() {
 		return $Instance;
 	}
 	
@@ -30,8 +30,10 @@ public final class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		if(Version.get() == null) return;
+		saveDefaultConfig();
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(this, this);
+		pm.registerEvents(new OreBoost(), this);
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -81,12 +83,22 @@ public final class Main extends JavaPlugin implements Listener {
 		return getConfig().getBoolean("custom-death-messages", true);
 	}
 	
+	public boolean[] ironAndGoldPrevent() {
+		return new boolean[] {getConfig().getBoolean("iron-prevent", true), getConfig().getBoolean("gold-prevent", true)};
+	}
+	
+	public int oreBoost() {
+		return Math.max(0, getConfig().getInt("ores-boost", 1));
+		// Math.max(0, *) because of idiots that can put -1...
+	}
+	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent e) {
 		Member m = Member.get(e.getPlayer());
-		if(m.getTimer() > 0) {
+		if(m.getTimer() > 0)
 			m.getPlayer().setHealth(0);
-		}
+		// still have to test
 	}
+
 	
 } 

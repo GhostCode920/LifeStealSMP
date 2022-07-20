@@ -7,11 +7,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
+// done
 final class v1_16_R2 extends Version {
+	
+	@Override
+	public int id() {
+		return 162;
+	}
 
 	@Override
 	public void sendActionBar(Player p, String content) {
-		
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(content));
 	}
 	
 	@Override

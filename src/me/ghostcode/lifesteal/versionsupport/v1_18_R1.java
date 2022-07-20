@@ -1,6 +1,6 @@
 package me.ghostcode.lifesteal.versionsupport;
 
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -8,6 +8,11 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
 final class v1_18_R1 extends Version {
+	
+	@Override
+	public int id() {
+		return 181;
+	}
 
 	@Override
 	public void sendActionBar(Player p, String content) {

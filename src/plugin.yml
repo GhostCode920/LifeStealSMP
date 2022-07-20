@@ -1,5 +1,5 @@
 name: LifeSteal
 author: GhostCode
-version: 0.69.333
+version: 1.69.333
 description: The Perfect Plugin for a LifeSteal SMP
-main: me.ghostcode.lifesteal.Main
+main: me.ghostcode.lifesteal.LifeSteal

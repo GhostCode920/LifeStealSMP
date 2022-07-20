@@ -1,6 +1,6 @@
 package me.ghostcode.lifesteal.versionsupport;
 
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -8,6 +8,11 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 
 final class v1_14_R1 extends Version {
+	
+	@Override
+	public int id() {
+		return 141;
+	}
 
 	@Override
 	public void sendActionBar(Player p, String content) {
@@ -16,7 +21,7 @@ final class v1_14_R1 extends Version {
 	
 	@Override
 	public Player shouldUpdateTimer(Player p, Entity d) {
-		if(d instanceof Egg || d instanceof Snowball || d instanceof (Abstract)Arrow) {
+		if(d instanceof Egg || d instanceof Snowball || d instanceof AbstractArrow) {
 			Projectile f = (Projectile) d;
 			if(f.getShooter() instanceof Player)
 				return (Player) f.getShooter();
